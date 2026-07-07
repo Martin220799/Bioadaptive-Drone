@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#121212">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ============================================ -->
+        <!-- DRONE STATUS SECTION -->
+        <!-- ============================================ -->
+        <TextView
+            android:text="DRONE STATUS"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/droneStatusGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/droneStateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Drone State: --"
+                android:textColor="#CCCCCC"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/droneBatteryTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Battery: --%"
+                android:textColor="#CCCCCC"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/rcStateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RC State: --"
+                android:textColor="#CCCCCC"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/rcBatteryTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RC Battery: --%"
+                android:textColor="#CCCCCC"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.parrot.drone.groundsdk.stream.GsdkStreamView
+            android:id="@+id/stream_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#000000"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/takeOffLandBt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/take_off"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <!-- ============================================ -->
+        <!-- BIOADAPTIVE FEEDBACK SECTION (NEU!) -->
+        <!-- ============================================ -->
+        <TextView
+            android:text="BIOADAPTIVES FEEDBACK"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- HR Display - Große, prominente Anzeige -->
+        <TextView
+            android:id="@+id/hrValueTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HR: -- bpm"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="#00FF00"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="#1A00FF00"
+            android:layout_marginBottom="12dp" />
+
+        <!-- ZONE INDICATOR (KRITISCH!) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="#1A000000"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:text="ZONE: "
+                android:textSize="18sp"
+                android:textColor="#CCCCCC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="8dp" />
+
+            <TextView
+                android:id="@+id/zoneIndicatorTxt"
+                android:text="GREEN"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#00FF00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/joystickLeftContainer"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom|start"
+            android:padding="8dp">
+
+            <View
+                android:id="@+id/joystickLeftView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#333333"
+                android:alpha="0.6" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/joystickRightContainer"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom|end"
+            android:padding="8dp">
+
+            <View
+                android:id="@+id/joystickRightView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#333333"
+                android:alpha="0.6" />
+        </FrameLayout>
+
+        <!-- SPEED RECOMMENDATION (KRITISCH für No-Drone-Modus!) -->
+        <TextView
+            android:id="@+id/speedRecommendationTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Empfohlene Geschwindigkeit: 1.2 m/s"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="#1A4CAF50"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone" />
+
+        <!-- QC Status - Kompakt -->
+        <TextView
+            android:id="@+id/qcStatusTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QC: -- RR/s, --% valid"
+            android:textSize="11sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="16dp" />
+
+        <!-- ============================================ -->
+        <!-- HRV MEASUREMENT SECTION -->
+        <!-- ============================================ -->
+        <TextView
+            android:text="HRV MEASUREMENT"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- HRV Duration Selector (NEU!) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:text="Messdauer:"
+                android:textColor="#CCCCCC"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="8dp" />
+
+            <Spinner
+                android:id="@+id/hrvDurationSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/hrv_durations"
+                android:background="@android:color/white"
+                android:backgroundTint="#FFFFFF" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/hrvModeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <RadioButton
+                android:id="@+id/rbPreFlight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pre_flight"
+                android:textColor="#FFFFFF"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rbPostFlight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/post_flight"
+                android:textColor="#FFFFFF" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnHrvToggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_start_hrv"
+            android:backgroundTint="#FF9800"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/hrvTimerTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hrv_timer_idle"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/hrvResultTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ergebnis: --"
+            android:textColor="#CCCCCC"
+            android:textSize="12sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- ============================================ -->
+        <!-- CALIBRATION WALK SECTION -->
+        <!-- ============================================ -->
+        <TextView
+            android:text="KALIBRIERUNGS-SPAZIERGANG"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnCalibWalk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_start_calib_walk"
+            android:backgroundTint="#9C27B0"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <!-- ============================================ -->
+        <!-- LOGGING CONTROLS (No-Drone-Modus) -->
+        <!-- ============================================ -->
+        <TextView
+            android:text="WALK TEST LOGGING"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnLogToggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_start_logging"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</ScrollView>

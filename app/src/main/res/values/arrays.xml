@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ============================================ -->
+<!-- res/values/arrays.xml (NEU!) -->
+<!-- ============================================ -->
+<resources>
+    <string-array name="hrv_durations">
+        <item>(Testing only)15 Sekunden</item>
+        <item>(Testing only)30 Sekunden</item>
+        <item>60 Sekunden</item>
+        <item>120 Sekunden</item>
+        <item>180 Sekunden</item>
+        <item>300 Sekunden (5 Min)</item>
+    </string-array>
+
+    <integer-array name="hrv_duration_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+        <item>300</item>
+    </integer-array>
+</resources>

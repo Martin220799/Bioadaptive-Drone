@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:padding="8dp">
+
+    <!-- Hauptinhalt: 3 Spalten (links HRV, Mitte Video, rechts Kalibrierung/Logging) -->
+    <LinearLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="160dp">
+
+        <!-- ========================================= -->
+        <!-- LINKER BEREICH: HRV + KALIBRIERUNG + PROFILE (ScrollView) -->
+        <!-- ========================================= -->
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/leftPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="8dp"
+                android:paddingBottom="16dp">
+
+                <!-- ========================================= -->
+                <!-- HRV MESSUNG -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HRV MEASUREMENT"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp" />
+
+                <RadioGroup
+                    android:id="@+id/hrvModeGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbPreFlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRE"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:buttonTint="@android:color/white"/>
+
+                    <RadioButton
+                        android:id="@+id/rbPostFlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="POST"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:buttonTint="@android:color/white"/>
+                </RadioGroup>
+
+                <!-- Dauer + Timer -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="4dp">
+
+                    <Spinner
+                        android:id="@+id/hrvDurationSpinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/hrv_durations"
+                        android:background="@android:color/white"
+                        android:backgroundTint="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/hrvTimerTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="00:00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Start/Stop HRV -->
+                <Button
+                    android:id="@+id/btnHrvToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="HRV START/STOP"
+                    android:textSize="12sp" />
+
+                <!-- HRV Ergebnis -->
+                <TextView
+                    android:id="@+id/hrvResultTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="RMSSD: -- ms"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp" />
+
+                <!-- ========================================= -->
+                <!-- KALIBRIER-SPAZIERGANG -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="CALIBRATION"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp" />
+
+                <Button
+                    android:id="@+id/btnCalibWalk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Calibration START/STOP"
+                    android:textSize="12sp" />
+
+                <!-- ========================================= -->
+                <!-- PROBANDEN-PROFIL MANAGEMENT -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/profile_section_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <!-- Profil-Auswahl Spinner -->
+                <Spinner
+                    android:id="@+id/profileSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@android:color/white"
+                    android:backgroundTint="#FFFFFF"
+                    android:minHeight="36dp"
+                    android:prompt="@string/profile_select" />
+
+                <!-- Profil-Status Anzeige -->
+                <TextView
+                    android:id="@+id/profileStatusTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/profile_not_loaded"
+                    android:textColor="#CCCCCC"
+                    android:textSize="11sp"
+                    android:maxLines="3"
+                    android:ellipsize="end" />
+
+                <!-- Profil-Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <Button
+                        android:id="@+id/btnProfileLoad"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:text="@string/profile_load"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnProfileSave"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/profile_save"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ========================================= -->
+        <!-- MITTLERER BEREICH: Video + kompakte Biofeedback-Zeile -->
+        <!-- ========================================= -->
+        <LinearLayout
+            android:id="@+id/centerPanel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Videostream (etwas niedriger, rest für Info-Zeile) -->
+            <com.parrot.drone.groundsdk.stream.GsdkStreamView
+                android:id="@+id/stream_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Kompakte Biofeedback + QC Zeile unter dem Video -->
+            <!-- Biofeedback unter dem Video: 2 Zeilen -->
+            <LinearLayout
+                android:id="@+id/bioRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="4dp"
+                android:paddingBottom="4dp">
+
+                <!-- Zeile 1: HR links, Zone rechts -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- HR links -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HR:"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/hrValueTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="-- bpm"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!-- Zone rechts -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Zone:"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/zoneIndicatorTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="--"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Zeile 2: Speed links, QC rechts -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="2dp">
+
+                    <!-- Speed links -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/speedRecommendationTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Speed:--"
+                            android:textColor="#CCCCCC"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- QC rechts -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="QC:"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/qcStatusTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="--"
+                            android:textColor="#CCCCCC"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!-- ========================================= -->
+        <!-- RECHTER BEREICH: Kalibrierung + Logging -->
+        <!-- ========================================= -->
+        <!-- ScrollView für scrollbares rechtes Panel -->
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/rightPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingBottom="16dp">
+
+                <!-- ========================================= -->
+                <!-- WALK-TEST LOGGING -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LOGGING"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnLogToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Logging START/STOP"
+                    android:textSize="12sp" />
+
+                <!-- ========================================= -->
+                <!-- PROTOTYP AUSWAHL -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/prototype_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/prototypeGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbPrototypeOutdoor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prototype_outdoor"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/rbPrototypeAltitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prototype_indoor_altitude"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rbPrototypeSimulation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prototype_simulation"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white" />
+                </RadioGroup>
+
+                <!-- ========================================= -->
+                <!-- SPEED CONTROLLER VERSION (Prototype 1 + 3) -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="@string/speed_version_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/speedVersionGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbSpeedV0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/speed_v0_label"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/rbSpeedV1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/speed_v1_label"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rbSpeedV2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/speed_v2_label"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white" />
+                </RadioGroup>
+
+                <!-- ========================================= -->
+                <!-- NEU: SIMULATION CONTROL (Prototype 1) -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="SIMULATION (Prototype 1)"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="Select 'Simulation' above to enable"
+                    android:textColor="#CCCCCC"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Desktop IP:"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:paddingEnd="4dp" />
+
+                    <EditText
+                        android:id="@+id/editTextSimIp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="192.168.1.100"
+                        android:textColorHint="#888888"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:inputType="text"
+                        android:background="@android:color/darker_gray"
+                        android:padding="4dp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonSimConnect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/sim_connect"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/textViewSimStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/sim_disabled"
+                    android:textColor="#888888"
+                    android:textSize="10sp" />
+
+                <!-- ========================================= -->
+                <!-- NEU: ALTITUDE CONTROL (Prototype 2) -->
+                <!-- ========================================= -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:text="ALTITUDE CONTROL (Prototype 2)"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="Indoor Altitude"
+                    android:textColor="#CCCCCC"
+                    android:textSize="11sp" />
+
+                <!-- Altitude Controller Version Selection -->
+                <RadioGroup
+                    android:id="@+id/altitudeVersionGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rbAltitudeA0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A0 - Baseline (fixed altitude levels)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/rbAltitudeA1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A1 - Trend (Zonemidlle +/- Trend)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rbAltitudeA2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A2 - Position+Trend (continuous)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:buttonTint="@android:color/white" />
+                </RadioGroup>
+
+                <!-- Altitude Controller Status -->
+                <TextView
+                    android:id="@+id/altitudeStatusTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Target: -- m | Current: -- m"
+                    android:textColor="#CCCCCC"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- ========================================= -->
+    <!-- VIRTUELLE JOYSTICKS (unten links / rechts) -->
+    <!-- Verbessert: Rund, mit Thumb-Indikator -->
+    <!-- ========================================= -->
+
+    <!-- LINKER JOYSTICK: Throttle (Y) / Yaw (X) -->
+    <FrameLayout
+        android:id="@+id/joystickLeftContainer"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp">
+
+        <!-- Äußerer Ring (Basis) -->
+        <View
+            android:id="@+id/joystickLeftBase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/joystick_base"
+            android:alpha="0.7" />
+
+        <!-- Touch-Bereich (transparent, für Events) -->
+        <View
+            android:id="@+id/joystickLeftView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
+        <!-- Thumb-Indikator (wird programmatisch bewegt) -->
+        <View
+            android:id="@+id/joystickLeftThumb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/joystick_thumb"
+            android:elevation="4dp" />
+
+        <!-- Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:text="THR/YAW"
+            android:textColor="#AAAAAA"
+            android:textSize="8sp"
+            android:layout_marginTop="4dp" />
+    </FrameLayout>
+
+    <!-- RECHTER JOYSTICK: Pitch (Y) / Roll (X) -->
+    <FrameLayout
+        android:id="@+id/joystickRightContainer"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp">
+
+        <!-- Äußerer Ring (Basis) -->
+        <View
+            android:id="@+id/joystickRightBase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/joystick_base"
+            android:alpha="0.7" />
+
+        <!-- Touch-Bereich (transparent, für Events) -->
+        <View
+            android:id="@+id/joystickRightView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
+        <!-- Thumb-Indikator (wird programmatisch bewegt) -->
+        <View
+            android:id="@+id/joystickRightThumb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/joystick_thumb"
+            android:elevation="4dp" />
+
+        <!-- Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:text="PITCH/ROLL"
+            android:textColor="#AAAAAA"
+            android:textSize="8sp"
+            android:layout_marginTop="4dp" />
+    </FrameLayout>
+
+    <!-- ========================================= -->
+    <!-- OVERRIDE STATUS ANZEIGE (über Joysticks) -->
+    <!-- ========================================= -->
+    <TextView
+        android:id="@+id/overrideStatusTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="100dp"
+        android:text="AUTO"
+        android:textColor="#4CAF50"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="#80000000"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:visibility="visible" />
+
+    <!-- ========================================= -->
+    <!-- TAKEOFF + DRONE/RC-INFOS (unten mittig) -->
+    <!-- ========================================= -->
+
+    <LinearLayout
+        android:id="@+id/statusBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#80000000"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp">
+
+        <!-- Drone Info -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/droneStateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Drone: --"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/droneBatteryTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Battery: --%"
+                android:textColor="#CCCCCC"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Takeoff/Land Button -->
+        <Button
+            android:id="@+id/takeOffLandBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:text="TAKEOFF"
+            android:textSize="12sp" />
+
+        <!-- Emergency Land Button -->
+        <Button
+            android:id="@+id/btnEmergencyLand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:text="LAND"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:backgroundTint="#CC0000" />
+
+        <!-- RC Info -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="8dp">
+
+            <TextView
+                android:id="@+id/rcStateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISCONNECTED"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/rcBatteryTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RC-Batt: --%"
+                android:textColor="#CCCCCC"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

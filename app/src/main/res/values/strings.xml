@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Adaptive Drone</string>
+
+    <!-- Drone Controls -->
+    <string name="take_off">Take Off</string>
+    <string name="land">Land</string>
+    <string name="percentage">%d%%</string>
+
+    <!-- HRV Measurement -->
+    <string name="btn_start_hrv">Start HRV Measurement</string>
+    <string name="btn_stop_hrv">Stop HRV Measurement</string>
+    <string name="pre_flight">PreFlight</string>
+    <string name="post_flight">PostFlight</string>
+    <string name="hrv_timer_idle">Timer: ready</string>
+    <string name="hrv_result_format">RMSSD: %.1f ms (%s, %ds, %d RR)</string>
+    <string name="hrv_result_no_data">No HRV Data</string>
+
+    <!-- Calibration Walk -->
+    <string name="btn_start_calib_walk">Start Calibration</string>
+    <string name="btn_stop_calib_walk">Stop Calibration</string>
+
+    <!-- Logging -->
+    <string name="btn_start_logging">Start Logging</string>
+    <string name="btn_stop_logging">Stop Logging</string>
+
+    <!-- Bioadaptive Feedback -->
+    <string name="hr_value_format"> %d bpm</string>
+    <string name="qc_status_format">RR: %d->%d [%s]</string>
+    <string name="qc_status_format_extended">%1$s RR: %2$d→%3$d</string>
+    <string name="zone_format">ZONE: %s</string>
+    <string name="speed_recommendation_format">Speed: %.1f </string>
+
+    <!-- Participant Profile Management -->
+    <string name="profile_section_title">USER-PROFILE</string>
+    <string name="profile_select">Select Profile</string>
+    <string name="profile_load">Load Profile</string>
+    <string name="profile_save">Save Profile</string>
+    <string name="profile_new">New Profile</string>
+    <string name="profile_loaded_format">Profile: %s ✓</string>
+    <string name="profile_not_loaded">No Profile loaded</string>
+    <string name="profile_id_hint">Participant-ID (e.g. P01)</string>
+
+    <!-- Speed Controller Version Selection -->
+    <string name="speed_version_title">SPEED CONTROLLER VERSION</string>
+    <string name="speed_v0_label">V0 - Original (Baseline)</string>
+    <string name="speed_v1_label">V1 – Trend (4–5 Steps)</string>
+    <string name="speed_v2_label">V2 - Optimal (Continuous)</string>
+
+    <!-- Prototype Type Selection -->
+    <string name="prototype_title">PROTOTYPE</string>
+    <string name="prototype_outdoor">Outdoor Drone</string>
+    <string name="prototype_indoor_altitude">Indoor Altitude</string>
+    <string name="prototype_simulation">Simulation</string>
+
+    <!-- Simulation (Prototype 1) -->
+    <string name="sim_connect">Connect</string>
+    <string name="sim_disconnect">Disconnect</string>
+    <string name="sim_ready">Ready to connect</string>
+    <string name="sim_disabled">Simulation disabled</string>
+</resources>
