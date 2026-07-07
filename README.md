@@ -1,10 +1,10 @@
 # HelloDrone
 
-Android application (Kotlin) for bioadaptive drone control based on real-time heart rate data. Developed as part of a Master's thesis in Pervasive Computing at the Institute of Telecooperation, JKU Linz.
+Android application (Kotlin) for bioadaptive drone control based on real-time heart rate data.
 
 ## Overview
 
-HelloDrone connects a Polar H10 chest strap (via Bluetooth LE) to a Parrot ANAFI drone (via Parrot GroundSDK) and adjusts drone behavior in real time based on the operator's physiological state. Heart rate zones are calculated per participant using an individual calibration procedure and mapped to either drone speed (outdoor prototype) or drone altitude (indoor prototype). A simulation mode allows testing without physical drone hardware.
+This project connects a Polar H10 chest strap (via BLE) to a Parrot ANAFI drone (via Parrot GroundSDK) and adjusts drone behavior in real time based on the operator's physiological state. Heart rate zones are calculated per participant using an individual calibration procedure and mapped to either drone speed (outdoor prototype) or drone altitude (indoor prototype). A simulation mode allows testing without physical drone hardware.
 
 ## Prototypes
 
